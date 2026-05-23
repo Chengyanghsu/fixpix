@@ -118,7 +118,6 @@ const App = () => {
     setActiveTab('hero');
     setProgress(0);
 
-    // UX優化：在手機端點擊生成後，自動將畫面平滑捲動到畫布區，讓用戶直接看到動畫
     if (window.innerWidth < 1024) {
       document.getElementById('canvas-section')?.scrollIntoView({ behavior: 'smooth' });
     }
@@ -277,14 +276,12 @@ const App = () => {
           .animate-spin-slow-reverse { animation: slow-spin-reverse 12s linear infinite; }
           .animate-develop { animation: develop-photo 3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
           
-          /* 隱藏原生滾動條，保持日系極簡 */
           .no-scrollbar::-webkit-scrollbar { display: none; }
           .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         `}
       </style>
 
       <nav className="bg-[#FDFBF7]/90 backdrop-blur-md sticky top-0 z-30 border-b border-[#EAE7DF]">
-        {/* RWD: 手機端 px-4，桌機端 px-6 */}
         <div className="max-w-6xl mx-auto px-4 lg:px-6 h-14 lg:h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <h1 className="text-[13px] lg:text-[15px] font-medium tracking-[0.1em] text-[#2C2C2A]">日系商攝 <span className="hidden sm:inline text-[10px] text-[#8A8578] font-normal tracking-widest ml-2">AI RETOUCHING</span></h1>
@@ -293,14 +290,11 @@ const App = () => {
         </div>
       </nav>
 
-      {/* RWD: 手機端 py-6，桌機端 py-10 */}
       <main className="max-w-6xl mx-auto px-4 lg:px-6 py-6 lg:py-10">
         
-        {/* RWD 核心 Grid: 小螢幕為 1 欄 (flex-col)，大螢幕為 12 欄 (grid) */}
         <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
           {/* 左側控制面板 */}
-          {/* RWD: 只有在 lg 尺寸以上才觸發 sticky 固定效果，小螢幕隨頁面滾動 */}
           <div className="w-full lg:col-span-4 space-y-6 lg:space-y-8 lg:sticky lg:top-24">
             
             <header className="mb-4 lg:mb-8 space-y-1 lg:space-y-2">
@@ -308,7 +302,7 @@ const App = () => {
               <p className="text-[#8A8578] text-[10px] lg:text-[11px] tracking-wider leading-relaxed">上傳商品照片，AI 將為您產生包含首圖、特寫等 4 種不同視角的日系高轉換率素材。</p>
             </header>
 
-            {/* 上傳區塊 - 確保觸控範圍足夠 (Touch-friendly) */}
+            {/* 上傳區塊 */}
             <div className="space-y-2 lg:space-y-3">
               <div className="flex items-center gap-3">
                 <span className="text-[8px] lg:text-[9px] tracking-[0.2em] text-[#A39E93] font-medium">STEP 01</span>
@@ -346,7 +340,6 @@ const App = () => {
                     <span className="text-[8px] lg:text-[9px] tracking-[0.2em] text-[#A39E93] font-medium">STEP 02</span>
                     <h3 className="text-[12px] lg:text-[13px] font-medium tracking-wider text-[#2C2C2A]">特徵保真防護 <span className="text-[8px] lg:text-[9px] text-[#A39E93] ml-1 tracking-normal">(選填)</span></h3>
                   </div>
-                  {/* RWD: 加大開關觸控區域 (min-w, min-h) */}
                   <div className="flex items-center gap-2 p-1">
                     <button 
                       onClick={() => !isOverallProcessing && setStrictFidelity(!strictFidelity)}
@@ -375,7 +368,6 @@ const App = () => {
               </div>
             </div>
 
-            {}
             {/* 日系風格走向區塊 */}
             <div className="space-y-2 lg:space-y-3">
                <div className="flex items-center gap-2 lg:gap-3 mb-1 lg:mb-2">
@@ -412,7 +404,6 @@ const App = () => {
                 <h3 className="text-[12px] lg:text-[13px] font-medium tracking-wider text-[#2C2C2A]">情境意象設定 <span className="text-[8px] lg:text-[9px] text-[#A39E93] ml-1 tracking-normal">(選填)</span></h3>
               </div>
               <div className="space-y-2 lg:space-y-3">
-                {/* RWD: 增加 input padding 提升點擊手感 */}
                 <input 
                   type="text" 
                   value={productName}
@@ -432,7 +423,6 @@ const App = () => {
               </div>
             </div>
 
-            {}
             <div className="pt-2">
               <button
                 onClick={processImage}
@@ -457,14 +447,11 @@ const App = () => {
           </div>
 
           {/* 右側展示與載入面板 */}
-          {/* RWD: 動態高度，手機上為自動長度或最小 400px，桌機上計算視窗高度 */}
           <div id="canvas-section" className="w-full lg:col-span-8 flex flex-col h-[55vh] min-h-[400px] lg:h-[calc(100vh-140px)] lg:min-h-[600px] scroll-mt-20">
             <div className="bg-white border-[0.5px] border-[#EAE7DF] flex-1 flex flex-col transition-all duration-1000 p-2 lg:p-6 shadow-sm overflow-hidden">
               
-              {}
               {(originalImage && (isOverallProcessing || Object.values(results).some(Boolean))) && (
                 <div className="flex justify-start lg:justify-center mb-4 lg:mb-6 pt-2 animate-in fade-in duration-1000 w-full overflow-x-auto no-scrollbar">
-                  {/* RWD: 使用 overflow-x-auto 讓 Tab 在窄螢幕上可以水平滑動 */}
                   <div className="flex gap-4 lg:gap-8 border-b-[0.5px] border-[#EAE7DF] pb-2 min-w-max px-2 lg:w-full lg:justify-center mx-auto">
                     {SHOT_TYPES.map((type) => (
                       <button 
@@ -500,11 +487,12 @@ const App = () => {
                     </div>
 
                     <div className="text-center h-16 lg:h-20 flex flex-col justify-center space-y-1.5 lg:space-y-2 w-full max-w-sm px-4">
+                        {/* 修正：將原本寫死的字串，改為綁定 LOADING_STEPS 以正確輪播文案 */}
                         <h3 className="text-[11px] lg:text-[12px] font-medium tracking-[0.15em] lg:tracking-[0.2em] text-[#2C2C2A] animate-in fade-in slide-in-from-bottom-1 duration-1000" key={`title-${loadingStep}`}>
-                          {isAnalyzing ? "正在構築影像參數..." : `渲染 ${SHOT_TYPES.find(t=>t.id === activeTab)?.label} 中...`}
+                          {isAnalyzing ? "正在構築影像參數..." : LOADING_STEPS[loadingStep].text}
                         </h3>
                         <p className="text-[8px] lg:text-[9px] text-[#A39E93] tracking-[0.1em] lg:tracking-[0.15em] uppercase animate-in fade-in duration-1000 delay-300" key={`desc-${loadingStep}`}>
-                          {isAnalyzing ? "Analyzing parameters" : "Processing image output"}
+                          {isAnalyzing ? "Analyzing parameters" : LOADING_STEPS[loadingStep].desc}
                         </p>
                     </div>
 
@@ -520,13 +508,13 @@ const App = () => {
                 {results[activeTab] ? (
                   <div className="w-full h-full relative group flex items-center justify-center p-0 lg:p-4 bg-white/50">
                     <img 
-                      key={results[activeTab]} 
+                      {/* 修正：移除了將極長 Base64 字串作為 key 的效能炸彈，改用 activeTab 組合 */}
+                      key={`result-${activeTab}`} 
                       src={results[activeTab]} 
                       alt={`Result ${activeTab}`} 
                       className="w-full h-full object-contain lg:max-w-full lg:max-h-full lg:shadow-sm animate-develop" 
                     />
                     
-                    {/* RWD: 手機端保持顯示但稍小，桌機端採用 hover 顯示 */}
                     <div className="absolute bottom-4 right-4 lg:bottom-6 lg:right-6 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                       <button 
                         onClick={() => {
@@ -574,4 +562,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default App;  
